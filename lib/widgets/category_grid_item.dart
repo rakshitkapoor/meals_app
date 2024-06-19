@@ -1,25 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:meals_app/data/dummy_data.dart';
 import 'package:meals_app/models/category.dart';
-import 'package:meals_app/screens/meals.dart';
+
 
 class CategoryGridItem extends StatelessWidget {
-  const CategoryGridItem({super.key, required this.category});
+  const CategoryGridItem({super.key, required this.category,required this.onselectCategory});
 
   final Category category;
+  final void Function() onselectCategory;
 
   @override
   Widget build(BuildContext context) {
-    void _callmealsScreen() {
-      Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) =>
-                  MealsScreen(title: category.title, meals: dummyMeals)));
-    }
 
     return InkWell(
-      onTap: _callmealsScreen,
+      onTap: onselectCategory,
       splashColor: Theme.of(context).primaryColor,
       borderRadius: BorderRadius.circular(10),
       child: Container(
