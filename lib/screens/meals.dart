@@ -2,13 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/screens/meal_details.dart';
 import 'package:meals_app/widgets/meal_item.dart';
 
 class MealsScreen extends StatelessWidget {
-  const MealsScreen({super.key, required this.title, required this.meals});
+  const MealsScreen({super.key, required this.title, required this.meals,required this.onToggleFavorite});
 
   final String title;
   final List<Meal> meals;
+  final void Function(Meal meal) onToggleFavorite;
+
+  void selectMeal(BuildContext context, Meal meal) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => MealDetails(meal: meal,onToggleFavorite:onToggleFavorite,),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -21,18 +29,19 @@ class MealsScreen extends StatelessWidget {
         child: meals.isNotEmpty
             ? ListView.builder(
                 itemCount: meals.length,
-                itemBuilder: (context, index) {
-                  return MealItem(meal: meals[index]);
-                },
+                itemBuilder: (context, index) => MealItem(
+                  meal: meals[index],
+                  onSelectMeal: ((meal) => selectMeal(context, meals[index])),
+                ),
               )
-            :  Column(
+            : Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    "Oh no......nothing here",
-                    style: ThemeData()
+                    "Oh no......nothing here!",
+                    style: Theme.of(context)
                         .textTheme
-                        .bodyLarge!
+                        .headlineLarge!
                         .copyWith(color: ThemeData().colorScheme.background),
                   )
                 ],
