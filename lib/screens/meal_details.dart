@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals_app/models/meal.dart';
+import 'package:meals_app/providers/favorites_provider.dart';
 
-class MealDetails extends StatelessWidget {
-  const MealDetails({super.key, required this.meal,required this.onToggleFavorite});
+class MealDetails extends ConsumerWidget {
+  const MealDetails({super.key, required this.meal});
 
   final Meal meal;
-  final void Function(Meal meal) onToggleFavorite;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final favoriteMeals = ref.watch(favoriteMealsProvider);
+
+    final isFavorite = favoriteMeals.contains(meal);
     return Scaffold(
       appBar: AppBar(
         title: Text(meal.title),
         actions: [
-          IconButton(onPressed: (){
-            onToggleFavorite(meal);
-          }, icon: const Icon(Icons.star))
+          IconButton(
+            onPressed: () {
+              final wasAdded = ref
+                  .read(favoriteMealsProvider.notifier)
+                  .toggleMealFavoriteStatus(meal);
+              ScaffoldMessenger.of(context).clearSnackBars();
+              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: Text(
+                      wasAdded ? "Recipe was Added" : "Recipe was removed")));
+            },
+            icon: isFavorite ? const Icon(Icons.star) : const Icon(Icons.star_border),
+          )
         ],
       ),
       body: SingleChildScrollView(
@@ -28,7 +40,7 @@ class MealDetails extends StatelessWidget {
               height: 200,
               width: double.infinity,
             ),
-            SizedBox(
+            const SizedBox(
               height: 14,
             ),
             Text(
@@ -40,12 +52,10 @@ class MealDetails extends StatelessWidget {
             for (final ingredient in meal.ingredients)
               Text(
                 ingredient,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodyMedium!
-                    .copyWith(color: Theme.of(context).colorScheme.onBackground),
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onBackground),
               ),
-            SizedBox(
+            const SizedBox(
               height: 24,
             ),
             Text(
@@ -56,16 +66,12 @@ class MealDetails extends StatelessWidget {
             ),
             for (final steps in meal.steps)
               Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 5
-                ),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
                 child: Text(
                   steps,
-                  style: Theme.of(context)
-                      .textTheme
-                      .bodyMedium!
-                      .copyWith(color: Theme.of(context).colorScheme.onBackground),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground),
                 ),
               ),
           ],
