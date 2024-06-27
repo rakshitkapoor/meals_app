@@ -6,7 +6,7 @@ import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/category_grid_item.dart';
 
 class CategoriesScreen extends StatefulWidget {
-  const CategoriesScreen({super.key,required this.availableMeals});
+  const CategoriesScreen({super.key, required this.availableMeals});
 
   final List<Meal> availableMeals;
 
@@ -14,42 +14,75 @@ class CategoriesScreen extends StatefulWidget {
   State<CategoriesScreen> createState() => _CategoriesScreenState();
 }
 
-class _CategoriesScreenState extends State<CategoriesScreen> {
-  void _selectCategory(BuildContext context,Category category) {
+class _CategoriesScreenState extends State<CategoriesScreen>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
 
-    final filteredMeals=widget.availableMeals.where((meal) => meal.categories.contains(category.id)).toList();
+// Explicit Animation
+  @override
+  void initState() {
+    super.initState();
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300),
+      lowerBound: 0,
+      upperBound: 1,
+    );
+
+    _animationController.forward();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
+  }
+
+  void _selectCategory(BuildContext context, Category category) {
+    final filteredMeals = widget.availableMeals
+        .where((meal) => meal.categories.contains(category.id))
+        .toList();
     Navigator.push(
         context,
         MaterialPageRoute(
-          builder: (context) => MealsScreen(title: category.title, meals: filteredMeals),
+          builder: (context) =>
+              MealsScreen(title: category.title, meals: filteredMeals),
         ));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      
       appBar: AppBar(
         title: const Text("Pick your category"),
       ),
-      body: GridView(
-        padding: const EdgeInsets.all(16),
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 20,
-          mainAxisSpacing: 20,
-        ),
-        children: [
-          for (final category in availableCategories)
-            CategoryGridItem(
-              category: category,
-              onselectCategory: () {
-                _selectCategory(context,category);
-              },
-            )
-        ],
-      ),
+      body: AnimatedBuilder(
+          animation: _animationController,
+          child: GridView(
+            padding: const EdgeInsets.all(16),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 3 / 2,
+              crossAxisSpacing: 20,
+              mainAxisSpacing: 20,
+            ),
+            children: [
+              for (final category in availableCategories)
+                CategoryGridItem(
+                  category: category,
+                  onselectCategory: () {
+                    _selectCategory(context, category);
+                  },
+                )
+            ],
+          ),
+          builder: (context, child) => SlideTransition(
+                position: Tween(
+                  begin: const Offset(0, 0.3),
+                  end: const Offset(0, 0),
+                ).animate(CurvedAnimation(parent: _animationController, curve: Curves.easeInOut)),
+                child: child,
+              )),
     );
   }
 }
