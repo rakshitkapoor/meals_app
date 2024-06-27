@@ -27,18 +27,30 @@ class MealDetails extends ConsumerWidget {
                   content: Text(
                       wasAdded ? "Recipe was Added" : "Recipe was removed")));
             },
-            icon: isFavorite ? const Icon(Icons.star) : const Icon(Icons.star_border),
+            icon: AnimatedSwitcher(
+              duration: Duration(milliseconds: 300),
+              transitionBuilder: (child, animation) {
+                return SizeTransition(
+                 sizeFactor: animation,
+                  child: child,
+                );
+              },
+              child: Icon(isFavorite ? Icons.star : Icons.star_border,key: ValueKey(isFavorite),),
+            ),
           )
         ],
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
-            Image.network(
-              meal.imageUrl,
-              fit: BoxFit.cover,
-              height: 200,
-              width: double.infinity,
+            Hero(
+              tag: meal.id,
+              child: Image.network(
+                meal.imageUrl,
+                fit: BoxFit.cover,
+                height: 200,
+                width: double.infinity,
+              ),
             ),
             const SizedBox(
               height: 14,
