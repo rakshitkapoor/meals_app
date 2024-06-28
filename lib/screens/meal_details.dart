@@ -23,19 +23,26 @@ class MealDetails extends ConsumerWidget {
                   .read(favoriteMealsProvider.notifier)
                   .toggleMealFavoriteStatus(meal);
               ScaffoldMessenger.of(context).clearSnackBars();
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
                   content: Text(
-                      wasAdded ? "Recipe was Added" : "Recipe was removed")));
+                    wasAdded ? "Recipe was Added" : "Recipe was removed",
+                  ),
+                ),
+              );
             },
             icon: AnimatedSwitcher(
               duration: Duration(milliseconds: 300),
               transitionBuilder: (child, animation) {
                 return SizeTransition(
-                 sizeFactor: animation,
+                  sizeFactor: animation,
                   child: child,
                 );
               },
-              child: Icon(isFavorite ? Icons.star : Icons.star_border,key: ValueKey(isFavorite),),
+              child: Icon(
+                isFavorite ? Icons.star : Icons.star_border,
+                key: ValueKey(isFavorite),
+              ),
             ),
           )
         ],

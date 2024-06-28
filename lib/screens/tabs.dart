@@ -7,12 +7,6 @@ import 'package:meals_app/screens/filters.dart';
 import 'package:meals_app/screens/meals.dart';
 import 'package:meals_app/widgets/main_drawer.dart';
 
-const kInitialFilters = {
-  Filter.glutenFree: false,
-  Filter.lactoseFree: false,
-  Filter.vegan: false,
-  Filter.vegetarian: false
-};
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});
@@ -58,20 +52,27 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
           title: 'Favorites',
           meals: favmeals,);
     }
-    return Scaffold(
-      drawer: MainDrawer(
-        onSelectScreen: _setScreen,
+    return Theme(
+      data: Theme.of(context).copyWith(
+        splashColor: Colors.transparent
       ),
-      body: activePage,
-      bottomNavigationBar: BottomNavigationBar(
-        onTap: (value) => _selectPage(value),
-        currentIndex: _selectedPageIndex,
-        items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.category_outlined), label: 'Categories'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.favorite), label: 'favorite'),
-        ],
+      child: Scaffold(
+        drawer: MainDrawer(
+          onSelectScreen: _setScreen,
+        ),
+        body: activePage,
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: Theme.of(context).primaryColor,
+          onTap: (value) => _selectPage(value),
+          currentIndex: _selectedPageIndex,
+          items: const [
+            BottomNavigationBarItem(
+                icon: Icon(Icons.category_outlined), label: 'Categories'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.favorite), label: 'favorite'),
+          ],
+        ),
       ),
     );
   }

@@ -47,7 +47,7 @@ class _CategoriesScreenState extends State<CategoriesScreen>
         MaterialPageRoute(
           builder: (context) =>
               MealsScreen(title: category.title, meals: filteredMeals),
-        ));
+        )); 
   }
 
   @override
