@@ -29,7 +29,8 @@ Meals is a Flutter application designed to provide users with a wide range of re
 - Apply Filters: Use the filter options in the settings to customize your recipe search.
 
 ## ScreenShots
-![Untitled design (1)](https://github.com/user-attachments/assets/3a664ba0-5b5b-45e7-8069-47a5c4a1e624)
+![Uploading Untitled design (1).png…]()
+
 
 ## Contributing
 
