@@ -1,16 +1,36 @@
-# meals_app
+# Meals App
 
-A new Flutter project.
+## Overview
+Meals is a Flutter application designed to provide users with a wide range of recipes across various categories. The app features a modern UI and allows users to filter recipes based on dietary preferences. The state management library Provider is used to manage data efficiently throughout the app.
 
-## Getting Started
+## Features
+- **Category-Based Recipes:** Browse and discover recipes from different categories.
+- **Favorite Recipes:** Add and manage your favorite recipes easily.
+- **Dietary Filters:** Apply filters for gluten-free, lactose-free, vegetarian, and vegan recipes to personalize your search.
+- **Animations:** Enjoy smooth transitions and an enhanced user experience with animations like Hero.
 
-This project is a starting point for a Flutter application.
+## Installation and Setup
+1. **Clone the repository and set up the project:**
+    ```bash
+    git clone https://github.com/yourusername/Snap-n-Score.git
+    cd Snap-n-Score
+    ```
+    
+    ```bash
+    cd android
+    flutter pub get
+    flutter run
+    ```
 
-A few resources to get you started if this is your first Flutter project:
+## Usage
+- Browse Recipes: Select a category to view recipes.
+- View Recipe Details: Click on a recipe to see detailed information and instructions.
+- Add to Favorites: Mark recipes as favourites for quick access.
+- Apply Filters: Use the filter options in the settings to customize your recipe search.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## ScreenShots
+![Untitled design (1)](https://github.com/user-attachments/assets/3a664ba0-5b5b-45e7-8069-47a5c4a1e624)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Contributing
+
+Contributions are welcome! Please create a pull request or submit an issue.
